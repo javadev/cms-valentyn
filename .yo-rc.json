@@ -38,6 +38,8 @@
     "enableTranslation": true,
     "nativeLanguage": "en",
     "languages": ["en"],
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "kasper-health-by-points",
+    "herokuDeployType": "git"
   }
 }
