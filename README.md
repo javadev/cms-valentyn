@@ -176,6 +176,9 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 ## Continuous Integration (optional)
 
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+Start Jenkins local
+curl -s "https://get.sdkman.io" | bash
+source "\$HOME/.sdkman/bin/sdkman-init.sh"
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
 [jhipster 6.9.0 archive]: https://www.jhipster.tech/documentation-archive/v6.9.0

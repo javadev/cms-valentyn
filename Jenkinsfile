@@ -45,12 +45,8 @@ node {
         }
     }
 
-    stage('packaging') {
-        sh "./mvnw -ntp verify -P-webpack -Pprod -DskipTests"
+    stage('package and deploy') {
+        sh "./mvnw -ntp com.heroku.sdk:heroku-maven-plugin:2.0.5:deploy -DskipTests -Pprod -Dheroku.buildpacks=heroku/jvm -Dheroku.appName=kasper-health-by-points"
         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-    }
-
-    stage('deployment') {
-        sh "./mvnw deployHeroku --no-daemon"
     }
 }
