@@ -183,7 +183,7 @@ Set java version for jenkins:
 
 Start Jenkins local /Users/kasper/Projects/jenkins:
 
-    jenkins java -jar jenkins.war --httpPort=9000
+    java -jar jenkins.war --httpPort=9000
 
 Procfile fix ifm CI
 Delete release:
