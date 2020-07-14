@@ -22,9 +22,8 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="date"><span jhiTranslate="twentyOnePointsApp.points.date">Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="exercice"><span jhiTranslate="twentyOnePointsApp.points.exercice">Exercice</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="exercice"><span jhiTranslate="twentyOnePointsApp.points.exercice">Did you Exercise</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="meals"><span jhiTranslate="twentyOnePointsApp.points.meals">Meals</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="alcohol"><span jhiTranslate="twentyOnePointsApp.points.alcohol">Alcohol</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="notes"><span jhiTranslate="twentyOnePointsApp.points.notes">Notes</span> <fa-icon icon="sort"></fa-icon></th>
@@ -34,9 +33,8 @@
             </thead>
             <tbody>
                 <tr *ngFor="let points of points ;trackBy: trackId">
-                    <td><a [routerLink]="['/points', points.id, 'view']">{{ points.id }}</a></td>
-                    <td>{{ points.date | date:'mediumDate' }}</td>
-                    <td>{{ points.exercice }}</td>
+                    <td class="text-nowrap"><a [routerLink]="['/points', points.id, 'view' ]">{{points.date | date:'mediumDate'}}</a></td>
+                    <td>{{ points.exercice }} <fa-icon [icon]="['fas', 'bell']"></fa-icon></td>
                     <td>{{ points.meals }}</td>
                     <td>{{ points.alcohol }}</td>
                     <td>{{ points.notes }}</td>
