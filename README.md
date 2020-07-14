@@ -186,8 +186,13 @@ Start Jenkins local /Users/kasper/Projects/jenkins:
     java -jar jenkins.war --httpPort=9000
 
 Procfile fix ifm CI
-Delete release:
-https://stackoverflow.com/questions/55349591/heroku-deploy-jhipster-project-with-gitlab-ci-get-crashed-because-of-procfil
+
+    Delete release:
+    https://stackoverflow.com/questions/55349591/heroku-deploy-jhipster-project-with-gitlab-ci-get-crashed-because-of-procfil
+
+Icon fix
+
+     add to file font-awesome-icons.ts NOT vendor.ts
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
 [jhipster 6.9.0 archive]: https://www.jhipster.tech/documentation-archive/v6.9.0

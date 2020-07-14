@@ -34,9 +34,14 @@
             <tbody>
                 <tr *ngFor="let points of points ;trackBy: trackId">
                     <td class="text-nowrap"><a [routerLink]="['/points', points.id, 'view' ]">{{points.date | date:'mediumDate'}}</a></td>
-                    <td>{{ points.exercice }} <fa-icon [icon]="['fas', 'bell']"></fa-icon></td>
-                    <td>{{ points.meals }}</td>
-                    <td>{{ points.alcohol }}</td>
+                    <td>
+                        <fa-icon [icon]="points.exercice ? 'check' : 'times'" aria-hidden="true"
+                                 class="{{points.exercice ? 'text-success' : 'text-danger'}}"></fa-icon>
+                    </td>
+                    <td>
+                        <fa-icon [icon]="points.meals ? 'check' : 'times'" aria-hidden="true" class="{{points.meals ? 'text-success' : 'text-danger'}}"></fa-icon>
+                    </td>
+                    <td><fa-icon [icon]="points.alcohol ? 'check' : 'times'" aria-hidden="true" class="{{points.alcohol ? 'text-success' : 'text-danger'}}"></fa-icon></td>
                     <td>{{ points.notes }}</td>
                     <td>
                         {{ points.user?.login }}
