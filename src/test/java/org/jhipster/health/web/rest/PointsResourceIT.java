@@ -183,7 +183,7 @@ public class PointsResourceIT {
         assertThat(pointsList).hasSize(1);
 
         // add id to default point -> used by asserts below
-        points.setId(1001L);
+        points.setId(pointsList.stream().findFirst().get().getId());
 
 
         // Get all the pointsList
