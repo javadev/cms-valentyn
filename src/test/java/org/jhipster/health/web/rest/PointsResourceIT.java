@@ -173,7 +173,7 @@ public class PointsResourceIT {
     @Transactional
     public void getAllPoints() throws Exception {
         // Initialize the database
-        // Create the Points
+        // Create the Points with role "ROLE_USER"
         restPointsMockMvc.perform(post("/api/points")
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(points)))
