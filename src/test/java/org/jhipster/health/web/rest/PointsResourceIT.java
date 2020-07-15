@@ -3,7 +3,7 @@ package org.jhipster.health.web.rest;
 import org.jhipster.health.TwentyOnePointsApp;
 import org.jhipster.health.domain.Points;
 import org.jhipster.health.repository.PointsRepository;
-
+import org.jhipster.health.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -50,6 +52,9 @@ public class PointsResourceIT {
     private PointsRepository pointsRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private EntityManager em;
 
     @Autowired
@@ -64,6 +69,7 @@ public class PointsResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Points createEntity(EntityManager em) {
+
         Points points = new Points()
             .date(DEFAULT_DATE)
             .exercice(DEFAULT_EXERCICE)
@@ -99,6 +105,7 @@ public class PointsResourceIT {
         int databaseSizeBeforeCreate = pointsRepository.findAll().size();
         // Create the Points
         restPointsMockMvc.perform(post("/api/points")
+          //  .with(user("user"))
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(points)))
             .andExpect(status().isCreated());
@@ -117,10 +124,19 @@ public class PointsResourceIT {
     @Test
     @Transactional
     public void createPointsWithExistingId() throws Exception {
+        // Initialize the database
+        // Create the Points
+        restPointsMockMvc.perform(post("/api/points")
+            //  .with(user("user"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(points)))
+            .andExpect(status().isCreated());
+
+
         int databaseSizeBeforeCreate = pointsRepository.findAll().size();
 
         // Create the Points with an existing ID
-        points.setId(1L);
+        points.setId(1001L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPointsMockMvc.perform(post("/api/points")
@@ -157,10 +173,22 @@ public class PointsResourceIT {
     @Transactional
     public void getAllPoints() throws Exception {
         // Initialize the database
-        pointsRepository.saveAndFlush(points);
+        // Create the Points
+        restPointsMockMvc.perform(post("/api/points")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(points)))
+            .andExpect(status().isCreated());
+
+        List<Points> pointsList = pointsRepository.findAll();
+        assertThat(pointsList).hasSize(1);
+
+        // add id to default point -> used by asserts below
+        points.setId(1001L);
+
 
         // Get all the pointsList
-        restPointsMockMvc.perform(get("/api/points?sort=id,desc"))
+        restPointsMockMvc.perform(get("/api/points?sort=id,desc")
+            .with(user("user")))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(points.getId().intValue())))
@@ -170,7 +198,7 @@ public class PointsResourceIT {
             .andExpect(jsonPath("$.[*].alcohol").value(hasItem(DEFAULT_ALCOHOL)))
             .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)));
     }
-    
+
     @Test
     @Transactional
     public void getPoints() throws Exception {
