@@ -2,6 +2,7 @@
   "home": {
     "title": "Welcome, Java Hipster!",
     "subtitle": "21-Points Health is here to track your health. &#128522;",
+    "welcomeWithName": "Welcome, {{name}}!",
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
     },

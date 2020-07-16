@@ -4,11 +4,8 @@
     </div>
 
     <div class="col-md-8">
-        <div [ngSwitch]="isAuthenticated()">
-            <div *ngSwitchCase="true">
-                <h1 class="display-4" jhiTranslate="home.title">Welcome, {{ account.login }}!</h1>
-            </div>
-        </div>
+        <h1 id="home-logged-message2" jhiTranslate="home.welcomeWithName" *ngIf="isAuthenticated() && account"
+            [translateValues]="{name: account.firstName }">Welcome, {{ account.firstName }}!</h1>
         <p class="lead" jhiTranslate="home.subtitle">21-Points Health is here to track your health.</p>
         <div [ngSwitch]="isAuthenticated()">
             <div *ngSwitchCase="true">
@@ -40,8 +37,7 @@
 
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
-                <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
-                    [translateValues]="{ username: account.login }">You are logged in as user "{{ account.login }}".</span>
+                <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }">You are logged in as user "{{ account.login }}".</span>
             </div>
 
             <div class="alert alert-warning" *ngSwitchCase="false">
