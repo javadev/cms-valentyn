@@ -1,16 +1,40 @@
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4 d-none d-md-inline">
         <span class="hipster img-fluid rounded"></span>
     </div>
 
-    <div class="col-md-9">
-        <p>
-            Hello Kasper 3
-        </p>
-        <h1 class="display-4" jhiTranslate="home.title">Welcome, Java Hipster!</h1>
+    <div class="col-md-8">
+        <h1 class="display-4" jhiTranslate="home.title">Welcome, {{ account.login }}!</h1>
 
-        <p class="lead" jhiTranslate="home.subtitle">This is your homepage Kasper</p>
+        <p class="lead" jhiTranslate="home.subtitle">21-Points Health is here to track your health.</p>
 
+        <div [ngSwitch]="isAuthenticated()">
+            <div *ngSwitchCase="true">
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="mt-1 d-none d-md-inline">
+                            Todo mt-1 d-none d-md-inline
+                        </h4>
+                        <!-- h4 jhiTranslate="home.points.thisWeek" class="mt-1 d-none d-md-inline"
+                            translateValues="{date: '{{pointsThisWeek.week | date: 'longDate'}}'}">
+                            Points for the week of {{pointsThisWeek.week | date: 'longDate'}}:
+                        </h4 -->
+                        <h4 class="mt-1 d-sm-none">
+                            Todo mt-1 d-sm-none
+                        </h4>
+                        <!-- h4 jhiTranslate="home.points.thisWeekMobile" class="mt-1 d-sm-none"
+                            translateValues="{date: '{{pointsThisWeek.week | date: 'mediumDate'}}'}">
+                            Points for {{pointsThisWeek.week | date: 'mediumDate'}}:
+                        </h4 -->
+                    </div>
+                    <div class="col-3 col-xs-2 text-right">
+                        <a [routerLink]="['/points/new']" class="btn btn-primary m-0 mb-1 text-white">Add Points</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- original stuff -->
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
