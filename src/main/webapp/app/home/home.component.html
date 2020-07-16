@@ -4,10 +4,12 @@
     </div>
 
     <div class="col-md-8">
-        <h1 class="display-4" jhiTranslate="home.title">Welcome, {{ account.login }}!</h1>
-
+        <div [ngSwitch]="isAuthenticated()">
+            <div *ngSwitchCase="true">
+                <h1 class="display-4" jhiTranslate="home.title">Welcome, {{ account.login }}!</h1>
+            </div>
+        </div>
         <p class="lead" jhiTranslate="home.subtitle">21-Points Health is here to track your health.</p>
-
         <div [ngSwitch]="isAuthenticated()">
             <div *ngSwitchCase="true">
                 <div class="row">
@@ -34,7 +36,8 @@
             </div>
         </div>
 
-        <!-- original stuff -->
+        <!-- orignal stuff -->
+
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
