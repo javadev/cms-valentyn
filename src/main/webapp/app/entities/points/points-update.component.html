@@ -1,8 +1,8 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-points-heading" jhiTranslate="twentyOnePointsApp.points.home.createOrEditLabel">Create or edit a Points</h2>
-
+            <h2 id="jhi-points-heading" [hidden]="!editForm.get('id')!.value" jhiTranslate="twentyOnePointsApp.points.home.createOrEditLabel">Edit a Points</h2>
+            <h2 id="jhi-points-heading2" [hidden]="editForm.get('id')!.value" jhiTranslate="twentyOnePointsApp.points.home.createLabel"> Add new point</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
@@ -27,22 +27,27 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="twentyOnePointsApp.points.exercice" for="field_exercice">Exercice</label>
-                    <input type="number" class="form-control" name="exercice" id="field_exercice"
+                <div class="form-check">
+                    <label class="form-check-label" for="field_exercice">
+                    <input type="checkbox" class="form-check-input" name="exercice" id="field_exercice"
                            formControlName="exercice"/>
+                        <span jhiTranslate="twentyOnePointsApp.points.exercice">Exercice</span>
+                    </label>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="twentyOnePointsApp.points.meals" for="field_meals">Meals</label>
-                    <input type="number" class="form-control" name="meals" id="field_meals"
+                <div class="form-check">
+                    <label class="form-check-label" for="field_meals">
+                    <input type="checkbox" class="form-check-input" name="meals" id="field_meals"
                            formControlName="meals"/>
+                        <span jhiTranslate="twentyOnePointsApp.points.meals">Meals</span>
+                    </label>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="twentyOnePointsApp.points.alcohol" for="field_alcohol">Alcohol</label>
-                    <input type="number" class="form-control" name="alcohol" id="field_alcohol"
+                <div class="form-check">
+                    <label class="form-check-label" for="field_alcohol">
+                    <input type="checkbox" class="form-check-input" name="alcohol" id="field_alcohol"
                            formControlName="alcohol"/>
+                        <span jhiTranslate="twentyOnePointsApp.points.alcohol">Alcohol</span>
+                    </label>
                 </div>
 
                 <div class="form-group">

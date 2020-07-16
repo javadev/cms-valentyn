@@ -3,8 +3,8 @@
     "points": {
       "home": {
         "title": "Points",
-        "createLabel": "Create a new Points",
-        "createOrEditLabel": "Create or edit a Points",
+        "createLabel": "Add Points",
+        "createOrEditLabel": "Edit a Points",
         "notFound": "No Points found"
       },
       "created": "A new Points is created with identifier {{ param }}",
