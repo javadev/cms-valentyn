@@ -7,6 +7,13 @@
         <h1 id="home-logged-message2" jhiTranslate="home.welcomeWithName" *ngIf="isAuthenticated() && account"
             [translateValues]="{name: account.firstName }">Welcome, {{ account.firstName }}!2</h1>
         <p class="lead" jhiTranslate="home.subtitle">21-Points Health is here to track your health.</p>
+        <p>
+            Use 21-point system to see how healthy you are being each week.
+            Its rules were simple: you can earn up to three points per day for the following reasons:<br>
+            1. If you eat healthy, you get a point. Otherwise, zero. <br>
+            2. If you exercise, you get a point.<br>
+            3. If you don’t drink alcohol, you get a point.
+        </p>
         <div [ngSwitch]="isAuthenticated()">
             <div *ngSwitchCase="true">
                 <div class="row">
