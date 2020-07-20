@@ -18,13 +18,9 @@
             <div *ngSwitchCase="true">
                 <div class="row">
                     <div class="col-8">
-                        <h4 class="mt-1 d-none d-md-inline">
-                            Todo mt-1 d-none d-md-inline
+                        <h4 jhiTranslate="home.points.thisWeek" [translateValues]="{date: pointsThisWeek.week}" class="mt-1 d-none d-md-inline">
+                            Points for the week of {{pointsThisWeek.points}}:
                         </h4>
-                        <!-- h4 jhiTranslate="home.points.thisWeek" class="mt-1 d-none d-md-inline"
-                            translateValues="{date: '{{pointsThisWeek.week | date: 'longDate'}}'}">
-                            Points for the week of {{pointsThisWeek.week | date: 'longDate'}}:
-                        </h4 -->
                         <h4 class="mt-1 d-sm-none">
                             Todo mt-1 d-sm-none
                         </h4>
@@ -35,6 +31,30 @@
                     </div>
                     <div class="col-3 col-xs-2 text-right">
                         <a [routerLink]="['/points/new']" class="btn btn-primary m-0 mb-1 text-white">Add Points</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-11 col-xs-12">
+                        <!-- ngb-progressbar max="21" [value]="pointsThisWeek.points" [striped]="true"
+                                         [type]="pointsThisWeek.progress" [hidden]="!pointsThisWeek.points">
+                            <span *ngIf="pointsThisWeek.points">
+                                {{pointsThisWeek.points}}
+                            </span>
+                        </ngb-progressbar -->
+
+                        <ngb-progressbar [value]="pointsThisWeek.getPoints" [striped]="true"
+                                        [type]="pointsThisWeek.progress">
+                           <span *ngIf="pointsThisWeek.points">
+                               {{pointsThisWeek.points}} / Goal: 10
+                           </span>
+                       </ngb-progressbar>
+
+
+                        <ngb-alert [dismissible]="false" [hidden]="pointsThisWeek.points">
+                            <span jhiTranslate="home.points.getMoving">
+                                No points yet this week, better get moving!</span>
+                        </ngb-alert>
+                        {{pointsThisWeek.points}} this.pointsPercentage  = {{pointsPercentage}}
                     </div>
                 </div>
             </div>

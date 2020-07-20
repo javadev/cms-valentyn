@@ -19,6 +19,8 @@ export class PointsDeleteDialogComponent {
 
   confirmDelete(id: number): void {
     this.pointsService.delete(id).subscribe(() => {
+      // eslint-disable-next-line no-console
+      console.log('pointsListModification broadcasted');
       this.eventManager.broadcast('pointsListModification');
       this.activeModal.close();
     });

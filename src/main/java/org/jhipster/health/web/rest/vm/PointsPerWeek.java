@@ -6,6 +6,7 @@ public class PointsPerWeek {
     private LocalDate week;
     private Integer points;
 
+
     public PointsPerWeek(LocalDate week, Integer points) {
         this.week = week;
         this.points = points;
@@ -13,6 +14,10 @@ public class PointsPerWeek {
 
     public Integer getPoints() {
         return points;
+    }
+
+    public String getPointsStr() {
+        return ""+points;
     }
 
     public void setPoints(Integer points) {
