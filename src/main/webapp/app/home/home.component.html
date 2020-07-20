@@ -42,8 +42,10 @@
                             </span>
                         </ngb-progressbar -->
 
-                        <ngb-progressbar [value]="pointsThisWeek.getPoints" [striped]="true"
-                                        [type]="pointsThisWeek.progress">
+                        <ngb-progressbar [max]="21" [value]="pointsThisWeek.points"
+                                         [showValue]="false"
+                                         [striped]="true"
+                                         [hidden]="!pointsThisWeek.points">
                            <span *ngIf="pointsThisWeek.points">
                                {{pointsThisWeek.points}} / Goal: 10
                            </span>

@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pointsService.thisWeek().subscribe((points: any) => {
       points = points.body;
       // eslint-disable-next-line no-console
-      console.log('points ' + points.points);
+      console.log('max points ' + points.maxPoints);
       this.pointsThisWeek = points;
       this.pointsPercentage = (points.points / 21) * 100;
     });

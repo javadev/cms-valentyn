@@ -16,8 +16,8 @@ public class PointsPerWeek {
         return points;
     }
 
-    public String getPointsStr() {
-        return ""+points;
+    public Integer getMaxPoints() {
+        return 21;
     }
 
     public void setPoints(Integer points) {
@@ -37,6 +37,7 @@ public class PointsPerWeek {
         return "PointsThisWeek{" +
             "points=" + points +
             ", week=" + week +
+            ", maxPoints=" + getMaxPoints() +
             '}';
     }
 }
