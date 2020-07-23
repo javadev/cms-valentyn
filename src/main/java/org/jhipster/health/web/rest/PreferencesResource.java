@@ -1,7 +1,9 @@
 package org.jhipster.health.web.rest;
 
+import io.micrometer.core.annotation.Timed;
 import org.jhipster.health.domain.Preferences;
 import org.jhipster.health.repository.PreferencesRepository;
+import org.jhipster.health.security.SecurityUtils;
 import org.jhipster.health.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -9,6 +11,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -27,14 +30,11 @@ import java.util.Optional;
 @Transactional
 public class PreferencesResource {
 
-    private final Logger log = LoggerFactory.getLogger(PreferencesResource.class);
-
     private static final String ENTITY_NAME = "preferences";
-
+    private final Logger log = LoggerFactory.getLogger(PreferencesResource.class);
+    private final PreferencesRepository preferencesRepository;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final PreferencesRepository preferencesRepository;
 
     public PreferencesResource(PreferencesRepository preferencesRepository) {
         this.preferencesRepository = preferencesRepository;
@@ -116,5 +116,24 @@ public class PreferencesResource {
 
         preferencesRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * GET /my-preferences -> get the current user's preferences.
+     */
+    @GetMapping("/my-preferences")
+    @Timed
+    public ResponseEntity<Preferences> getUserPreferences() {
+        String username = SecurityUtils.getCurrentUserLogin().get();
+        log.debug("REST request to get Preferences : {}", username);
+        Optional<Preferences> preferences =
+            preferencesRepository.findOneByUserLogin(username);
+        if (preferences.isPresent()) {
+            return new ResponseEntity<>(preferences.get(), HttpStatus.OK);
+        } else {
+            Preferences defaultPreferences = new Preferences();
+            defaultPreferences.setWeeklyGoal(10); // default
+            return new ResponseEntity<>(defaultPreferences, HttpStatus.OK);
+        }
     }
 }

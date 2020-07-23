@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-8">
                         <h4 jhiTranslate="home.points.thisWeek" [translateValues]="{date: pointsThisWeek.week}" class="mt-1 d-none d-md-inline">
-                            Points for the week of {{pointsThisWeek.points}}:
+                            Points for the week of {{pointsThisWeek.points}}
                         </h4>
                         <h4 class="mt-1 d-sm-none">
                             Todo mt-1 d-sm-none
@@ -45,9 +45,10 @@
                         <ngb-progressbar [max]="21" [value]="pointsThisWeek.points"
                                          [showValue]="false"
                                          [striped]="true"
+                                         [type]="pointsThisWeek.progress"
                                          [hidden]="!pointsThisWeek.points">
                            <span *ngIf="pointsThisWeek.points">
-                               {{pointsThisWeek.points}} / Goal: 10
+                               {{pointsThisWeek.points}} / Goal: {{preferences.weeklyGoal}}
                            </span>
                        </ngb-progressbar>
 
@@ -56,8 +57,15 @@
                             <span jhiTranslate="home.points.getMoving">
                                 No points yet this week, better get moving!</span>
                         </ngb-alert>
-                        {{pointsThisWeek.points}} this.pointsPercentage  = {{pointsPercentage}}
+
                     </div>
+                </div>
+                <div class="row" *ngIf="preferences?.id">
+                    <p class="mt-2 col-11">
+                        <a [routerLink]="['/preferences', preferences.id, 'edit']"
+                           class="float-right" jhiTranslate="home.link.preferences">Edit Preferences</a>
+                        <!-- a routerLink="history" jhiTranslate="home.link.history">View History</a -->
+                    </p>
                 </div>
             </div>
         </div>

@@ -14,7 +14,8 @@
       "stackoverflow": "JHipster on Stack Overflow",
       "bugtracker": "JHipster bug tracker",
       "chat": "JHipster public chat room",
-      "follow": "follow @jhipster on Twitter"
+      "follow": "follow @jhipster on Twitter",
+      "preferences": "Edit Preferences"
     },
     "like": "If you like JHipster, don't forget to give us a star on",
     "github": "GitHub"
