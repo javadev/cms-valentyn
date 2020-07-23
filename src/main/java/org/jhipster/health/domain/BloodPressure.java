@@ -39,6 +39,15 @@ public class BloodPressure implements Serializable {
     @JsonIgnoreProperties(value = "bloodPressures", allowSetters = true)
     private User user;
 
+    public BloodPressure() {}
+
+    public BloodPressure(ZonedDateTime dateTime, Integer systolic, Integer diastolic, User user) {
+        this.date = dateTime;
+        this.systolic = systolic;
+        this.diastolic = diastolic;
+        this.user = user;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;

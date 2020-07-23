@@ -179,7 +179,7 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 Set java version for jenkins:
 
     curl -s "https://get.sdkman.io" | bash
-    source "\$HOME/.sdkman/bin/sdkman-init.sh"
+    source /Users/kasper/.sdkman/bin/sdkman-init.sh
 
 Start Jenkins local /Users/kasper/Projects/jenkins:
 
