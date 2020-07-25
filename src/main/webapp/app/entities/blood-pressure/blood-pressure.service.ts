@@ -48,6 +48,12 @@ export class BloodPressureService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  last30Days(): Observable<EntityResponseType> {
+    return this.http
+      .get('api/bp-by-days/30', { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
   protected convertDateFromClient(bloodPressure: IBloodPressure): IBloodPressure {
     const copy: IBloodPressure = Object.assign({}, bloodPressure, {
       date: bloodPressure.date && bloodPressure.date.isValid() ? bloodPressure.date.toJSON() : undefined,

@@ -5,6 +5,7 @@ import { LoginModalService } from 'app/core/login/login-modal.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
 import { PointsService } from 'app/entities/points/points.service';
+import { BloodPressureService } from 'app/entities/blood-pressure/blood-pressure.service';
 import { JhiEventManager } from 'ng-jhipster';
 import { PreferencesService } from 'app/entities/preferences/preferences.service';
 import { Preferences } from 'app/shared/model/preferences.model';
@@ -26,7 +27,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private loginModalService: LoginModalService,
     private pointsService: PointsService,
     private preferencesService: PreferencesService,
-    private eventManager: JhiEventManager
+    private eventManager: JhiEventManager,
+    private bloodPressureService: BloodPressureService
   ) {}
 
   ngOnInit(): void {
