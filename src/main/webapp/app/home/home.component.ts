@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   pointsThisWeek: any = {};
   pointsPercentage?: number;
   preferences: Preferences = new Preferences();
+  bpReadings: any = {};
+  bpOptions: any;
 
   constructor(
     private accountService: AccountService,
@@ -88,14 +90,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         } else if (points.points >= 10 && this.preferences.weeklyGoal != null && points.points < this.preferences.weeklyGoal) {
           this.pointsThisWeek.progress = 'warning';
         }
+      }); // end pointsService
+      // Get blood pressure readings for the last 30 days
+      this.bloodPressureService.last30Days().subscribe((bpReadings: any) => {
+        bpReadings = bpReadings.body;
+        this.bpReadings = bpReadings;
+        // eslint-disable-next-line no-console
+        console.log('bpReadings.last30Days ' + this.bpReadings);
+        // https://stackoverflow.com/a/34694155/65681
+        // this.bpOptions = { ...D3ChartService.getChartConfig() };
       });
     });
-
-    /*
-     this.preferencesService.user().subscribe((preferences: any) => {
-        this.preferences = preferences.body;
-     });
-     */
   }
 
   isAuthenticated(): boolean {

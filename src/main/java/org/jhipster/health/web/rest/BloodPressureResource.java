@@ -149,7 +149,7 @@ public class BloodPressureResource {
     }
 
     private List<BloodPressure> filterByUser(List<BloodPressure> readings) {
-        Stream<BloodPressure> userReadings = readings.stream()
+        Stream<BloodPressure> userReadings = readings.stream().filter(e -> e.getUser() !=null)
             .filter(bp -> bp.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get()));
         return userReadings.collect(Collectors.toList());
     }
