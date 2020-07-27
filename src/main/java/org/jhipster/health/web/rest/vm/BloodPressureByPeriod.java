@@ -3,7 +3,7 @@ package org.jhipster.health.web.rest.vm;
 import org.jhipster.health.domain.BloodPressure;
 
 import java.util.List;
-
+// dummy
 public class BloodPressureByPeriod {
     private String period;
     private List<BloodPressure> readings;
