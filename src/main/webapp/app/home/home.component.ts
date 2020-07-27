@@ -9,6 +9,7 @@ import { BloodPressureService } from 'app/entities/blood-pressure/blood-pressure
 import { JhiEventManager } from 'ng-jhipster';
 import { PreferencesService } from 'app/entities/preferences/preferences.service';
 import { Preferences } from 'app/shared/model/preferences.model';
+import { D3ChartService } from './d3-chart.service';
 
 @Component({
   selector: 'jhi-home',
@@ -23,6 +24,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   preferences: Preferences = new Preferences();
   bpReadings: any = {};
   bpOptions: any;
+  bpData: any;
+
+  options: any;
+  data: any;
 
   constructor(
     private accountService: AccountService,
@@ -40,9 +45,55 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.account = account;
       if (this.isAuthenticated()) {
         this.getUserData();
+        this.setTestChart();
       }
     });
     this.registerAuthenticationSuccess();
+  }
+
+  setTestChart(): void {
+    this.options = {
+      chart: {
+        type: 'discreteBarChart',
+        height: 450,
+        margin: {
+          top: 20,
+          right: 20,
+          bottom: 50,
+          left: 55,
+        },
+        x(d: { label: any }): any {
+          return d.label;
+        },
+        y(d: { label: any }): any {
+          return d.label;
+        },
+        showValues: true,
+        valueFormat(d: number): any {
+          return d3.format(',.4f')(d);
+        },
+        duration: 500,
+        xAxis: {
+          axisLabel: 'X Axis',
+        },
+        yAxis: {
+          axisLabel: 'Y Axis',
+          axisLabelDistance: -10,
+        },
+      },
+    };
+
+    this.data = [
+      {
+        key: 'Cumulative Return',
+        values: [
+          {
+            label: 'Ab',
+            value: 29,
+          },
+        ],
+      },
+    ];
   }
 
   registerAuthenticationSuccess(): void {
@@ -96,9 +147,56 @@ export class HomeComponent implements OnInit, OnDestroy {
         bpReadings = bpReadings.body;
         this.bpReadings = bpReadings;
         // eslint-disable-next-line no-console
-        console.log('bpReadings.last30Days ' + this.bpReadings);
+        console.log('bpReadings.length ' + this.bpReadings.readings.length);
         // https://stackoverflow.com/a/34694155/65681
-        // this.bpOptions = { ...D3ChartService.getChartConfig() };
+        this.bpOptions = D3ChartService.getChartConfig();
+        // eslint-disable-next-line no-console
+        console.log('bpOptions ' + this.bpOptions);
+
+        if (bpReadings.readings.length) {
+          this.bpOptions.title.text = bpReadings.period;
+          this.bpOptions.chart.yAxis.axisLabel = 'Blood Pressure';
+          /* eslint-disable no-debugger */
+          // debugger;
+          /*
+          bpReadings.readings.forEach((item: { date: string; }) => {
+              // eslint-disable-next-line no-console
+              console.log('x fisk=' + new Date(item.date));
+          });
+          */
+          const systolics: any = [];
+          const diastolics: any = [];
+          const upperValues: any = [];
+          const lowerValues: any = [];
+          bpReadings.readings.forEach((item: { date: string; systolic: number; diastolic: number }) => {
+            systolics.push({
+              x: new Date(item.date),
+              y: item.systolic,
+            });
+            diastolics.push({
+              x: new Date(item.date),
+              y: item.diastolic,
+            });
+            upperValues.push(item.systolic);
+            lowerValues.push(item.diastolic);
+          });
+          this.bpData = [
+            {
+              values: systolics,
+              key: 'Systolic',
+              color: '#673ab7',
+            },
+            {
+              values: diastolics,
+              key: 'Diastolic',
+              color: '#03a9f4',
+            },
+          ];
+          // set y scale to be 10 more than max and min
+          this.bpOptions.chart.yDomain = [Math.min(...lowerValues) - 10, Math.max(...upperValues) + 10];
+        } else {
+          this.bpReadings.readings = [];
+        }
       });
     });
   }

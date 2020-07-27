@@ -18,6 +18,7 @@
       "preferences": "Edit Preferences"
     },
     "like": "If you like JHipster, don't forget to give us a star on",
-    "github": "GitHub"
+    "github": "GitHub",
+    "bloodPressure.noReadings": "No blood pressure readings found."
   }
 }

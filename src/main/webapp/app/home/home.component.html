@@ -67,6 +67,22 @@
                         <!-- a routerLink="history" jhiTranslate="home.link.history">View History</a -->
                     </p>
                 </div>
+                <!-- div class="row mt-1">
+                    <div class="col-md-11 col-xs-12">
+                        
+                            <nvd3 [options]="bpOptions" [data]="bpData"></nvd3>
+                        
+                    </div>
+                </div -->
+                <div class="row mt-1">
+                    <div class="col-md-11 col-xs-12">
+                        <span *ngIf="bpReadings.readings && bpReadings.readings.length">
+                            <nvd3 [options]="bpOptions" [data]="bpData" class="with-3d-shadow with-transitions"></nvd3></span>
+                        <ngb-alert [dismissible]="false" [hidden]="bpReadings.readings && bpReadings.readings.length">
+                            <span jhiTranslate="home.bloodPressure.noReadings">No blood pressure readings found.</span>
+                        </ngb-alert>
+                    </div>
+                </div>
             </div>
         </div>
 

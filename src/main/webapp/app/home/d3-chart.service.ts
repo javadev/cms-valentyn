@@ -1,10 +1,8 @@
-declare const d3, nv: any;
-
 /**
  * ChartService to define the chart config for D3
  */
 export class D3ChartService {
-  static getChartConfig() {
+  static getChartConfig(): any {
     const today = new Date();
     const priorDate = new Date().setDate(today.getDate() - 30);
     return {
@@ -17,10 +15,10 @@ export class D3ChartService {
           bottom: 40,
           left: 55,
         },
-        x(d) {
+        x(d: { x: any }): any {
           return d.x;
         },
-        y(d) {
+        y(d: { y: any }): any {
           return d.y;
         },
         useInteractiveGuideline: true,
@@ -28,7 +26,7 @@ export class D3ChartService {
         xAxis: {
           axisLabel: 'Dates',
           showMaxMin: false,
-          tickFormat(d) {
+          tickFormat(d: Date): any {
             return d3.time.format('%b %d')(new Date(d));
           },
         },
