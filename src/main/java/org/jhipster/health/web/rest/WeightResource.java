@@ -1,12 +1,16 @@
 package org.jhipster.health.web.rest;
 
+import io.micrometer.core.annotation.Timed;
+import org.jhipster.health.domain.BloodPressure;
 import org.jhipster.health.domain.Weight;
 import org.jhipster.health.repository.WeightRepository;
+import org.jhipster.health.security.SecurityUtils;
 import org.jhipster.health.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.jhipster.health.web.rest.vm.WeightByPeriod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,8 +26,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * REST controller for managing {@link org.jhipster.health.domain.Weight}.
@@ -126,4 +134,25 @@ public class WeightResource {
         weightRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * GET  /weight-by-days : get all the weigh-ins for last x days.
+     */
+    @GetMapping("/weight-by-days/{days}")
+    @Timed
+    public ResponseEntity<WeightByPeriod> getByDays(@PathVariable int days) {
+        ZonedDateTime rightNow = ZonedDateTime.now(ZoneOffset.UTC);
+        ZonedDateTime daysAgo = rightNow.minusDays(days);
+
+        List<Weight> weighIns = weightRepository.findAllByDateBetweenOrderByDateDesc(daysAgo, rightNow);
+        WeightByPeriod response = new WeightByPeriod("Last " + days + " Days", filterByUser(weighIns));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private List<Weight> filterByUser(List<Weight> readings) {
+        Stream<Weight> userReadings = readings.stream().filter(e -> e.getUser() !=null)
+            .filter(bp -> bp.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get()));
+        return userReadings.collect(Collectors.toList());
+    }
+
 }

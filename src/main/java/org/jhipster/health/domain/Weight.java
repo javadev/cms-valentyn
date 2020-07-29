@@ -36,6 +36,14 @@ public class Weight implements Serializable {
     @JsonIgnoreProperties(value = "weights", allowSetters = true)
     private User user;
 
+    public Weight() {}
+
+    public Weight(ZonedDateTime timestamp, Double weight, User user) {
+        this.date = timestamp;
+        this.weight = weight;
+        this.user = user;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;

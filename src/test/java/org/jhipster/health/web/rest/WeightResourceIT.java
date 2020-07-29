@@ -1,7 +1,9 @@
 package org.jhipster.health.web.rest;
 
 import org.jhipster.health.TwentyOnePointsApp;
+import org.jhipster.health.domain.User;
 import org.jhipster.health.domain.Weight;
+import org.jhipster.health.repository.UserRepository;
 import org.jhipster.health.repository.WeightRepository;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,10 +22,13 @@ import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.jhipster.health.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -48,6 +53,9 @@ public class WeightResourceIT {
 
     @Autowired
     private MockMvc restWeightMockMvc;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private Weight weight;
 
@@ -152,7 +160,7 @@ public class WeightResourceIT {
             .andExpect(jsonPath("$.[*].date").value(hasItem(sameInstant(DEFAULT_DATE))))
             .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.doubleValue())));
     }
-    
+
     @Test
     @Transactional
     public void getWeight() throws Exception {
@@ -236,5 +244,45 @@ public class WeightResourceIT {
         // Validate the database contains one less item
         List<Weight> weightList = weightRepository.findAll();
         assertThat(weightList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    private void createByMonth(ZonedDateTime firstDate, ZonedDateTime firstDayOfLastMonth) {
+        User user = userRepository.findOneByLogin("user").get();
+
+        weightRepository.saveAndFlush(new Weight(firstDate, 205D, user));
+        weightRepository.saveAndFlush(new Weight(firstDate.plusDays(10), 200D, user));
+        weightRepository.saveAndFlush(new Weight(firstDate.plusDays(20), 195D, user));
+
+        // last month
+        weightRepository.saveAndFlush(new Weight(firstDayOfLastMonth, 208D, user));
+        weightRepository.saveAndFlush(new Weight(firstDayOfLastMonth.plusDays(11), 206D, user));
+        weightRepository.saveAndFlush(new Weight(firstDayOfLastMonth.plusDays(23), 204D, user));
+    }
+
+    @Test
+    @Transactional
+    public void getForLast30Days() throws Exception {
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime thirtyDaysAgo = now.minusDays(30);
+        ZonedDateTime firstDayOfLastMonth = now.withDayOfMonth(1).minusMonths(1);
+        createByMonth(thirtyDaysAgo, firstDayOfLastMonth);
+
+
+        // Get all the weighIns
+        restWeightMockMvc.perform(get("/api/weights")
+            .with(user("user").roles("USER")))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$", hasSize(6)));
+
+        // Get the weighIns for the last 30 days
+        restWeightMockMvc.perform(get("/api/weight-by-days/{days}", 30)
+            .with(user("user").roles("USER")))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.period").value("Last 30 Days"))
+            .andExpect(jsonPath("$.weighIns.[*].weight").value(hasItem(200D)));
     }
 }

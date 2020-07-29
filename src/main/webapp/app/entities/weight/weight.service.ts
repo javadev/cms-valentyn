@@ -48,6 +48,12 @@ export class WeightService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  last30Days(): Observable<EntityResponseType> {
+    return this.http
+      .get('api/weight-by-days/30', { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
   protected convertDateFromClient(weight: IWeight): IWeight {
     const copy: IWeight = Object.assign({}, weight, {
       date: weight.date && weight.date.isValid() ? weight.date.toJSON() : undefined,

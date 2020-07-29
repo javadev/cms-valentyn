@@ -21,6 +21,9 @@
     "github": "GitHub",
     "bloodPressure.noReadings": "No blood pressure readings found.",
     "bloodPressure.title": "Blood Pressure:",
-    "bloodPressure.createLabel": "Add Blood Pressure"
+    "bloodPressure.createLabel": "Add Blood Pressure",
+    "weight.noWeighIns": "No weigh-ins found.",
+    "weight.title": "Weight:",
+    "weight.createLabel": "Add Weight"
   }
 }
