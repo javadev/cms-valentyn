@@ -22,7 +22,6 @@ export class D3ChartService {
           return d.y;
         },
         useInteractiveGuideline: true,
-        dispatch: {},
         xAxis: {
           axisLabel: 'Dates',
           showMaxMin: false,
@@ -35,10 +34,10 @@ export class D3ChartService {
           axisLabel: '',
           axisLabelDistance: 30,
         },
-        transitionDuration: 250,
       },
       title: {
         enable: true,
+        text: 'Blood Pressure',
       },
     };
   }

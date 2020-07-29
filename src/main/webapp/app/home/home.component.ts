@@ -172,10 +172,12 @@ export class HomeComponent implements OnInit, OnDestroy {
             systolics.push({
               x: new Date(item.date),
               y: item.systolic,
+              area: false,
             });
             diastolics.push({
               x: new Date(item.date),
               y: item.diastolic,
+              area: false,
             });
             upperValues.push(item.systolic);
             lowerValues.push(item.diastolic);
@@ -185,15 +187,19 @@ export class HomeComponent implements OnInit, OnDestroy {
               values: systolics,
               key: 'Systolic',
               color: '#673ab7',
+              area: false,
             },
             {
               values: diastolics,
               key: 'Diastolic',
               color: '#03a9f4',
+              area: false, // area - set to true if you want this line to turn into a filled area chart.
             },
           ];
           // set y scale to be 10 more than max and min
-          this.bpOptions.chart.yDomain = [Math.min(...lowerValues) - 10, Math.max(...upperValues) + 10];
+          // eslint-disable-next-line no-console
+          console.log('lowest value =' + Math.min(...lowerValues));
+          this.bpOptions.chart.yDomain = [Math.min(...lowerValues) - 15, Math.max(...upperValues) + 15];
         } else {
           this.bpReadings.readings = [];
         }

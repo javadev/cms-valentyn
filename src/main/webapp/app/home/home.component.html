@@ -74,6 +74,17 @@
                         
                     </div>
                 </div -->
+                <div class="row mt-4">
+                    <div class="col-6 text-nowrap">
+                        <h4 class="mt-1 d-none d-md-inline" jhiTranslate="home.bloodPressure.title">Blood Pressure:</h4>
+                        <!-- h4 class="mt-1 d-sm-none" jhiTranslate="home.bloodPressure.titleMobile">BP:</h4 -->
+                    </div>
+                    <div class="col col-md-5 col-xs-5 text-right">
+                        <a [routerLink]="['/blood-pressure/new']" class="btn btn-outline-secondary btn-sm">
+                            <span jhiTranslate="home.bloodPressure.createLabel">Add Blood Pressure</span>
+                        </a>
+                    </div>
+                </div>
                 <div class="row mt-1">
                     <div class="col-md-11 col-xs-12">
                         <span *ngIf="bpReadings.readings && bpReadings.readings.length">
